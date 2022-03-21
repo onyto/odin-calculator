@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Helvetica, sans-serif;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+}
+
+#calculator {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+}
+
+#display {
+  height: 80px;
+  border-style: solid;
+  margin-bottom: 15px;
+}
+
+#keypad {
+  display: flex;
+  flex-wrap: wrap;
+  border-style: solid;
+  gap: 8px;
+  padding: 10px;
+}
+
+.key {
+  display: flex;
+  flex: 1 0 100px;
+  width: 80px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+  font-weight: bold;
+}
