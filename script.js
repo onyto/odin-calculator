@@ -20,16 +20,16 @@ function divide(a, b) {
 
 function operate(operator, a, b) {
   switch (operator) {
-    case "addition":
+    case "+":
       return add(a, b)
 
-    case "subtraction":
+    case "-":
       return subtract(a, b)
 
-    case "multiplication":
+    case "x":
       return multiply(a, b)
 
-    case "division":
+    case "/":
       return divide(a, b)
   
     default:
@@ -57,7 +57,33 @@ function keyEvent(e) {
       break;
 
     case '=':
+      let tmpString = "";
+      const tmpArray = [];
+
+      displayValueArray.forEach((value, idx, arr) => {
+        if (!isNaN(value)) {
+          tmpString += value;
+          if (idx === (arr.length - 1)) tmpArray.push(tmpString);
+        }
+        else if (value === "x" || value === "/" || value === "+" || value === "-") {
+          tmpArray.push(tmpString);
+          tmpString = "";
+          tmpArray.push(value);
+        }
+      });
+      console.log(tmpArray);
       
+      const result = tmpArray.reduce((previousValue, currentValue, idx, arr) => {
+        if (isNaN(currentValue)) {
+          const nextValue = arr[idx + 1];
+          return operate(currentValue, +previousValue, +nextValue)
+        }
+        else {
+          return previousValue
+        }
+      })
+      console.log(result);
+      updateDisplay([result]);
       break;
 
     case '.':
