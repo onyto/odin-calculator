@@ -95,11 +95,6 @@ function keyEvent(e) {
       updateDisplay(displayValueArray);
       break;
   }
-
-  // On Equal call a function that looks at the current display and
-  // slice it to 3 parts(number, operator, number) or 2 parts(number, operator)
-  // and then call the correct math function.
-  // Put all of that in an overall reduce() that loops through the objects
 }
 
 function updateDisplay(values) {
