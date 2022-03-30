@@ -44,68 +44,85 @@ function addKeyEvent() {
 
 function keyEvent(e) {
   const key = e.target;
-  const displayValueArray = displayValue.textContent.split("");
+  const displayArray = getDisplay();
 
   switch (key.textContent) {
     case 'CLR':
-      updateDisplay([]);
+      clearDisplay();
       break;
 
     case 'DEL':
-      displayValueArray.pop();
-      updateDisplay(displayValueArray);
+      displayArray.pop();
+      updateDisplay(displayArray);
       break;
 
     case '=':
-      let tmpString = "";
-      const tmpArray = [];
-
-      displayValueArray.forEach((value, idx, arr) => {
-        if (!isNaN(value)) {
-          tmpString += value;
-          if (idx === (arr.length - 1)) tmpArray.push(tmpString);
-        }
-        else if (value === "x" || value === "/" || value === "+" || value === "-") {
-          tmpArray.push(tmpString);
-          tmpString = "";
-          tmpArray.push(value);
-        }
-      });
-      console.log(tmpArray);
-      
-      const result = tmpArray.reduce((previousValue, currentValue, idx, arr) => {
-        if (isNaN(currentValue)) {
-          const nextValue = arr[idx + 1];
-          return operate(currentValue, +previousValue, +nextValue)
-        }
-        else {
-          return previousValue
-        }
-      })
-      console.log(result);
+      const operationsArray = createOperations(displayArray);
+      const result = calculateResult(operationsArray);
       updateDisplay([result]);
       break;
 
     case '.':
-      // do nothing for now
+      // Do nothing for now
       break;
   
     default:
-      displayValueArray.push(key.textContent);
-      updateDisplay(displayValueArray);
+      displayArray.push(key.textContent);
+      updateDisplay(displayArray);
       break;
   }
 }
 
 function updateDisplay(values) {
-  if (values.length >= 1) {
     displayValue.textContent = values.join("");
-  }
-  else {
-    displayValue.textContent = "";
-  }
 }
 
 function getDisplay() {
-  // return an array of the displayValue
+  return displayValue.textContent.split("")
+}
+
+function clearDisplay() {
+  displayValue.textContent = "";
+}
+
+function createOperations(values) {
+  let operand = "";
+  const operations = [];
+
+  values.forEach((value, idx, arr) => {
+    if (value === "x" || value === "/" || value === "+" || value === "-") {
+      operations.push(operand);
+      operand = "";
+      
+      const operator = value;
+      operations.push(operator);
+    }
+    else {
+      // If it's none of the above, it's an operand
+      operand += value;
+
+      // If it's the last operand, add it to operations
+      if (idx === (arr.length - 1)) operations.push(operand);
+    }
+  })
+  console.log(operations);
+  return operations
+}
+
+function calculateResult(operations) {
+  const result = operations.reduce((total, currentValue, idx, arr) => {
+    if (isNaN(currentValue)) {
+      // If it's not a number it's an operator
+      const operator = currentValue;
+
+      // If the last value in operations is an operator, add it to the end of the total
+      if (idx === (arr.length -1)) return (+total + operator)
+
+      const nextValue = arr[idx + 1];
+      return operate(operator, +total, +nextValue)
+    }
+    else return total
+  })
+  console.log(result);
+  return result
 }
