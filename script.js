@@ -20,16 +20,16 @@ function divide(a, b) {
 
 function operate(operator, a, b) {
   switch (operator) {
-    case "+":
+    case '+':
       return add(a, b)
 
-    case "-":
+    case '-':
       return subtract(a, b)
 
-    case "x":
+    case 'x':
       return multiply(a, b)
 
-    case "/":
+    case '/':
       return divide(a, b)
   
     default:
@@ -71,25 +71,25 @@ function keyEvent(e) {
 }
 
 function updateDisplay(values) {
-    displayValue.textContent = values.join("");
+    displayValue.textContent = values.join('');
 }
 
 function getDisplay() {
-  return displayValue.textContent.split("")
+  return displayValue.textContent.split('')
 }
 
 function clearDisplay() {
-  displayValue.textContent = "";
+  displayValue.textContent = '';
 }
 
 function createOperations(values) {
-  let operand = "";
+  let operand = '';
   const operations = [];
 
   values.forEach((value, idx, arr) => {
-    if (value === "x" || value === "/" || value === "+" || value === "-") {
+    if (value === 'x' || value === '/' || value === '+' || value === '-') {
       operations.push(operand);
-      operand = "";
+      operand = '';
       
       const operator = value;
       operations.push(operator);
