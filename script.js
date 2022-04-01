@@ -43,10 +43,10 @@ function addKeyEvent() {
 }
 
 function keyEvent(e) {
-  const key = e.target;
+  const key = e.target.textContent;
   const displayArray = getDisplay();
 
-  switch (key.textContent) {
+  switch (key) {
     case 'CLR':
       clearDisplay();
       break;
@@ -62,12 +62,9 @@ function keyEvent(e) {
       updateDisplay([result]);
       break;
 
-    case '.':
-      // Do nothing for now
-      break;
-  
     default:
-      displayArray.push(key.textContent);
+      if (checkDuplicateOperator(displayArray, key)) break;
+      displayArray.push(key);
       updateDisplay(displayArray);
       break;
   }
@@ -125,4 +122,42 @@ function calculateResult(operations) {
   })
   console.log(result);
   return result
+}
+
+function checkDuplicateOperator(displayArray, key) {
+  const operators = ['.', '+', 'x', '/']
+
+  if (
+    operators.includes(displayArray.at(-1)) &&
+    operators.includes(key)
+  ) {
+    console.log('no operator after operator (except minus)');
+    return true
+  }
+
+  if (displayArray.at(-1) === '-' &&
+    operators.includes(key)
+  ) {
+    console.log('no operator after minus (except minus)');
+    return true
+  }
+
+  if (
+    operators.includes(displayArray.at(-2)) &&
+    displayArray.at(-1) === '-' &&
+    key === '-'
+  ) {
+    console.log('no double minus after operator');
+    return true
+  }
+
+  if (displayArray.at(-2) === '-' &&
+    displayArray.at(-1) === '-' &&
+    key === '-'
+  ) {
+    console.log('no more than two minuses in a row');
+    return true
+  }
+
+  return false
 }
