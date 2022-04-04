@@ -44,6 +44,11 @@ function addKeyEvent() {
 
 function keyEvent(e) {
   const key = e.target.textContent;
+  
+  if (getDisplay().join('') === 'Infinity') {
+    clearDisplay();
+  }
+
   const displayArray = getDisplay();
 
   switch (key) {
@@ -64,6 +69,7 @@ function keyEvent(e) {
 
     default:
       if (checkDuplicateOperator(displayArray, key)) break;
+      if (OperatorFirst(displayArray, key)) break;
       displayArray.push(key);
       updateDisplay(displayArray);
       break;
@@ -160,4 +166,13 @@ function checkDuplicateOperator(displayArray, key) {
   }
 
   return false
+}
+
+function OperatorFirst(displayArray, key) {
+  const operators = ['.', '+', 'x', '/']
+
+  if (
+    displayArray.length === 0 &&
+    operators.includes(key)
+  ) return true
 }
