@@ -45,7 +45,7 @@ function addKeyEvent() {
 function keyEvent(e) {
   const key = e.target.textContent;
   
-  if (getDisplay().join('') === 'Infinity') {
+  if (getDisplay().join('') === 'Infinity' || getDisplay().join('') === '-Infinity') {
     clearDisplay();
   }
 
