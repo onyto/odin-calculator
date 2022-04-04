@@ -91,20 +91,43 @@ function clearDisplay() {
 function createOperations(values) {
   let operand = '';
   const operations = [];
-
+  const operators = ['+', 'x', '/'];
+  
   values.forEach((value, idx, arr) => {
-    if (value === 'x' || value === '/' || value === '+' || value === '-') {
-      operations.push(operand);
-      operand = '';
-      
-      const operator = value;
-      operations.push(operator);
+
+    if (value === '-') {
+      // if first minus then push to operand
+      if (idx === 0) {
+        operand += value;
+      }
+      // if minus after operator then push to operand
+      else if (
+        operators.includes(arr[idx-1]) ||
+        arr[idx-1] === '-'
+      ) {
+        operand += value;
+      }
+      // else its an operator
+      else {
+        if (operand !== '') {
+          operations.push(operand);
+          operand = '';
+        }
+        operations.push(value);
+      }
+    }
+    else if (operators.includes(value)) {
+      if (operand !== '') {
+        operations.push(operand);
+        operand = '';
+      }
+      operations.push(value);
     }
     else {
-      // If it's none of the above, it's an operand
+      // If it's not an operator it's an operand
       operand += value;
 
-      // If it's the last operand, add it to operations
+      // If it's the last operand add it to operations
       if (idx === (arr.length - 1)) operations.push(operand);
     }
   })
@@ -131,7 +154,7 @@ function calculateResult(operations) {
 }
 
 function checkDuplicateOperator(displayArray, key) {
-  const operators = ['.', '+', 'x', '/']
+  const operators = ['.', '+', 'x', '/'];
 
   if (
     operators.includes(displayArray.at(-1)) &&
@@ -169,10 +192,20 @@ function checkDuplicateOperator(displayArray, key) {
 }
 
 function OperatorFirst(displayArray, key) {
-  const operators = ['.', '+', 'x', '/']
+  const operators = ['.', '+', 'x', '/'];
 
+  // Don't allow an operator as the first input (except minus)
   if (
     displayArray.length === 0 &&
     operators.includes(key)
   ) return true
+
+  // Only allow one minus as the first input
+  if (
+    displayArray.length === 1 &&
+    displayArray[0] === '-' &&
+    key === '-'
+  ) return true
+
+  return false
 }
