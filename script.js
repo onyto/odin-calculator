@@ -131,7 +131,7 @@ function createOperations(values) {
       if (idx === (arr.length - 1)) operations.push(operand);
     }
   })
-  console.log(operations);
+  
   return operations
 }
 
@@ -147,44 +147,46 @@ function calculateResult(operations) {
       const nextValue = arr[idx + 1];
       return operate(operator, +total, +nextValue)
     }
-    else return total
+    else {
+      return total
+    }
   })
-  console.log(result);
+
   return result
 }
 
 function checkDuplicateOperator(displayArray, key) {
   const operators = ['.', '+', 'x', '/'];
 
+  // No operator after operator (except minus
   if (
     operators.includes(displayArray.at(-1)) &&
     operators.includes(key)
   ) {
-    console.log('no operator after operator (except minus)');
     return true
   }
 
+  // No operator after minus (except minus
   if (displayArray.at(-1) === '-' &&
     operators.includes(key)
   ) {
-    console.log('no operator after minus (except minus)');
     return true
   }
 
+  // No double minus after operator
   if (
     operators.includes(displayArray.at(-2)) &&
     displayArray.at(-1) === '-' &&
     key === '-'
   ) {
-    console.log('no double minus after operator');
     return true
   }
 
+  // No more than two minuses in a row
   if (displayArray.at(-2) === '-' &&
     displayArray.at(-1) === '-' &&
     key === '-'
   ) {
-    console.log('no more than two minuses in a row');
     return true
   }
 
@@ -198,14 +200,18 @@ function OperatorFirst(displayArray, key) {
   if (
     displayArray.length === 0 &&
     operators.includes(key)
-  ) return true
+  ) {
+    return true
+  }
 
   // Only allow one minus as the first input
   if (
     displayArray.length === 1 &&
     displayArray[0] === '-' &&
     key === '-'
-  ) return true
+  ) {
+    return true
+  }
 
   return false
 }
