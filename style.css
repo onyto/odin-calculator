@@ -14,7 +14,7 @@ body {
 #calculator {
   display: flex;
   flex-direction: column;
-  width: 450px;
+  width: 380px;
 }
 
 #display {
@@ -24,25 +24,23 @@ body {
   height: 80px;
   border-style: solid;
   margin-bottom: 15px;
+  font-size: 28px;
+  padding-right: 5px;
 }
-
-/* #value {
-  
-} */
 
 #keypad {
   display: flex;
   flex-wrap: wrap;
   border-style: solid;
-  gap: 8px;
+  gap: 5px;
   padding: 10px;
 }
 
 .key {
   display: flex;
-  flex: 1 0 100px;
-  width: 80px;
-  height: 50px;
+  flex: 1 0 auto;
+  width: 70px;
+  height: 70px;
   justify-content: center;
   align-items: center;
   font-size: larger;
